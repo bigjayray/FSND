@@ -1,4 +1,4 @@
 export AUTH0_DOMAIN='joi.us.auth0.com'
 export ALGORITHMS=['RS256']
 export API_AUDIENCE='Casting'
-export DATABASE_URL=postgres://rkdycqtrsxtzjo:a80ddb8bffb51f2fc26f1d0160b452dbe5116a00a094e62dfb2cf34e8965b30d@ec2-50-16-198-4.compute-1.amazonaws.com:5432/d1p2fmmdfp1lvp
+export DATABASE_URL=postgres://dowmxfvstdlpuk:b977f38a414029251dd6600325d3ccac5110ff2894f8b3c437b46e2c135d5e47@ec2-107-20-15-85.compute-1.amazonaws.com:5432/d8na0vr3bbdvo0
