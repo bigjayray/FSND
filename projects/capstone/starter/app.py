@@ -3,6 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import setup_db, Movies, Actors
+from authy import AuthError, requires_auth
 
 def create_app(test_config=None):
   # create and configure the app
@@ -23,7 +24,8 @@ def create_app(test_config=None):
   # GET /casting/movies
   
   @app.route('/casting/movies', methods=['GET'])
-  def get_movies():
+  @requires_auth('get:movies')
+  def get_movies(payload):
     try:
       selection = Movies.query.order_by(Movies.id).all()
       movies = [movie.format() for movie in selection]
@@ -40,7 +42,8 @@ def create_app(test_config=None):
   # GET /casting/actors
   
   @app.route('/casting/actors', methods=['GET'])
-  def get_actors():
+  @requires_auth('get:actors')
+  def get_actors(payload):
     try:
       selection = Actors.query.order_by(Actors.id).all()
       actors = [actor.format() for actor in selection]
@@ -57,7 +60,8 @@ def create_app(test_config=None):
   # POST /casting/movies
   
   @app.route('/casting/movies', methods=['POST'])
-  def new_movie():
+  @requires_auth('post:movies')
+  def new_movie(payload):
     body = request.get_json()
     
     # if no form data
@@ -84,7 +88,8 @@ def create_app(test_config=None):
   # POST /casting/actors
   
   @app.route('/casting/actors', methods=['POST'])
-  def new_actor():
+  @requires_auth('post:actors')
+  def new_actor(payload):
     body = request.get_json()
     
     # if no form data
@@ -111,7 +116,8 @@ def create_app(test_config=None):
   # DELETE /casting/movies/<int:movie_id>
 
   @app.route('/casting/movies/<int:movie_id>', methods=['DELETE'])
-  def delete_movie(movie_id):
+  @requires_auth('delete:movies')
+  def delete_movie(payload, movie_id):
     try:
       movie = Movies.query.filter(Movies.id == movie_id).one_or_none()
 
@@ -131,7 +137,8 @@ def create_app(test_config=None):
   # DELETE /casting/actors/<int:actor_id>
 
   @app.route('/casting/actors/<int:actor_id>', methods=['DELETE'])
-  def delete_actor(actor_id):
+  @requires_auth('delete:actors')
+  def delete_actor(payload, actor_id):
     try:
       actor = Actors.query.filter(Actors.id == actor_id).one_or_none()
 
@@ -150,7 +157,8 @@ def create_app(test_config=None):
   # PATCH /casting/movies/<int:movie_id>
 
   @app.route('/casting/movies/<int:movie_id>', methods=['PATCH'])
-  def update_movie(movie_id):
+  @requires_auth('patch:movies')
+  def update_movie(payload, movie_id):
     body = request.get_json()
     
     # if no form data
@@ -184,7 +192,8 @@ def create_app(test_config=None):
   # PATCH /casting/actors/<int:movie_id>
 
   @app.route('/casting/actors/<int:actor_id>', methods=['PATCH'])
-  def update_actor(actor_id):
+  @requires_auth('patch:actors')
+  def update_actor(payload, actor_id):
     body = request.get_json()
     
     # if no form data
@@ -218,6 +227,14 @@ def create_app(test_config=None):
 
   # Error Handling
   
+  @app.errorhandler(500)
+  def unprocessable(error):
+    return jsonify({
+      'success': False,
+      'error': 500,
+      'message': 'internal server error'
+  }), 500
+    
   @app.errorhandler(422)
   def unprocessable(error):
     return jsonify({
