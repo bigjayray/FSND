@@ -52,7 +52,7 @@ flask run
 
 Setting the `FLASK_ENV` variable to `development` will detect file changes and restart the server automatically.
 
-Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application. 
+Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application.
 
 ## Testing
 
@@ -62,6 +62,12 @@ To run the tests, run
 createdb casting_test
 python test_flaskr.py
 ```
+
+Test endpoints with [Postman](https://getpostman.com):
+
+- I have created collection with bearer tokens for different roles generated using auth0
+- Import the postman collection `udacity-capstone-casting.postman_collection.json`
+- Run the collection.
 
 # API Reference
 
