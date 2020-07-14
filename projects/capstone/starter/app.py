@@ -21,6 +21,11 @@ def create_app(test_config=None):
   
   # ROUTES
   
+  # Home
+  @app.route('/')
+  def home():
+    return jsonify('Welcome')
+  
   # GET /casting/movies
   
   @app.route('/casting/movies', methods=['GET'])
@@ -250,19 +255,7 @@ def create_app(test_config=None):
       'error': 404,
       'message': 'resource not found'
     }), 404
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   return app
 
 APP = create_app()

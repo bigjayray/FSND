@@ -3,8 +3,8 @@ from sqlalchemy import Column, String, Integer, create_engine, Date
 from flask_sqlalchemy import SQLAlchemy
 import json
 
-database_name = "casting"
-database_path = "postgresql://{}:{}@{}/{}".format('postgres', 'postgres', 'localhost:5432', database_name)
+# database_name = "casting"
+# database_path = "postgresql://{}:{}@{}/{}".format('postgres', 'postgres', 'localhost:5432', database_name)
 
 db = SQLAlchemy()
 
@@ -14,13 +14,19 @@ setup_db(app)
 '''
 
 
-def setup_db(app, database_path=database_path):
-    app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+# def setup_db(app, database_path=database_path):
+def setup_db(app):
+    # app.config["SQLALCHEMY_DATABASE_URI"] = database_path
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ['DATABASE_URL']
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
     db.create_all()
 
+# TO DROP AND CREATE DATABASE 
+def db_drop_and_create_all():
+  db.drop_all()
+  db.create_all()
 
 '''
 Movies
