@@ -14,7 +14,7 @@ setup_db(app)
 
 def setup_db(app):
 # def setup_db(app):
-    app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres://postgres@localhost:5432/casting'
+    app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres://uefvmbfyqbmenl:9369505ce25349fcbb3854d9bb2299544d979a96d71b903409bb29395c8a18c6@ec2-54-217-213-79.eu-west-1.compute.amazonaws.com:5432/d9bt1ho8bv4pj3'
     # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ['DATABASE_URL']
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
